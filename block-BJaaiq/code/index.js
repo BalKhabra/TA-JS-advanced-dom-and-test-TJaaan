@@ -1,28 +1,36 @@
-let root = document.querySelector(".quotes");
-let count = 3;
-function createUI(quote, author) {
-  let li = document.createElement("li");
-  li.classList.add("quote");
-  let h1 = document.createElement("h1");
-  h1.innerText = quote;
-  let p = document.createElement("p");
-  p.innerText = author;
-  li.append(h1, p);
-  return li;
-}
+let root = document.querySelector('ul');
+let max = 3;
+let index = 0;
 
-document.addEventListener("DOMContentLoaded", () => {
-  alert(`The content of the DOM is loaded`);
-  for (let i = 0; i < 3; i++) {
-    root.append(createUI(quotes[i].quoteText, quotes[i].quoteAuthor));
-  }
-});
+function addQuotes(){
+    for (let i = 0; i < max; i++){
+        let li = document.createElement("li");
+        let blockquote = document.createElement('blockquote')
+        let cite = document.createElement("cite");
+        blockquote.innerText = quotes[index].quoteText;
+        cite.innerText = quotes[index].quoteAuthor;
+        li.append(blockquote, cite);
 
-document.addEventListener("scroll", () => {
-  let windowRelativeBottom =
-    document.documentElement.getBoundingClientRect().bottom;
-  if (windowRelativeBottom < window.innerHeight + 100) {
-    root.append(createUI(quotes[count].quoteText, quotes[count].quoteAuthor));
-    count++;
-  }
-});
+        root.append(li);
+        index++;
+    }
+};
+
+addQuotes();
+
+document.addEventListener('scroll', () => {
+    let scrollTop = document.documentElement.scrollTop;
+    let scrollHeight = document.documentElement.scrollHeight;
+    let clientHeight = document.documentElement.clientHeight;
+    if(scrollTop + clientHeight >= scrollHeight && index < quotes){
+        addQuotes();
+    }
+  });
+
+
+window.addEventListener("DOMContentLoaded", () => {
+    alert(`The content of the DOM is loaded`);
+    for (let i = 0; i < 3; i++) {
+      root.append(createUI(quotes[i].quoteText, quotes[i].quoteAuthor));
+    }
+  });
